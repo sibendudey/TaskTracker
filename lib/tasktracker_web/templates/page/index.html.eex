@@ -1,0 +1,9 @@
+<p><h1>Welcome to Task tracking app</h1></p>
+<p>
+<div class="row">
+    <%= link "View users" , to: "/users" %>
+</div>
+<div class="row">
+   <%= link "View tasks" , to: "/tasks" %>
+</div>
+</p>
