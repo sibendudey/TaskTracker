@@ -35,7 +35,19 @@ defmodule Tasktracker.TaskManager do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Repo.get!(Task, id)
+    |> Repo.preload(:user)
+  end
+
+  @doc """
+
+  """
+  def get_task_by_user_id(user_id) do
+    query = from t in Task, where: t.user_id == ^user_id
+    Repo.all(query)
+    |> Repo.preload(:user)
+  end
 
   @doc """
   Creates a task.

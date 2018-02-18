@@ -1,4 +1,22 @@
 <p><h1>Welcome to Task tracking app</h1></p>
+    <!-- session_path(@conn, :create) -->
+    <%= if @current_user do  %>
+    <div>You are logged in.</div>
+    <%= link "Task Page", to: page_path(@conn, :feed, user: @current_user.id) %>
+    <% else %>
+    <h1>Log In</h1>
+    <%= form_tag("/session", method: :post) do %>
+      <div class="form-group">
+        Email
+        <input type="email" name="email" placeholder="user@example.com" >
+      </div>
+      <!-- passwords come later -->
+      <div class="form-group">
+        <button class="btn btn-primary">Log in</button>
+        <%= link "Register", to: user_path(@conn, :new) %>
+      </div>
+    <% end %>
+    <% end %>
 <p>
 <div class="row">
     <%= link "View users" , to: "/users" %>

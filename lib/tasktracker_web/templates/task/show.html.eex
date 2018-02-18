@@ -13,8 +13,18 @@
   </li>
 
   <li>
+      <strong>Assigned To:</strong>
+      <%= @task.user.name %>
+  </li>
+
+  <li>
     <strong>Completed:</strong>
-    <%= @task.completed %>
+    <%= if @task.completed do %>
+        Done
+    <% end %>
+    <%= if !@task.completed do %>
+    Not Completed
+    <%end%>
   </li>
 
 </ul>
