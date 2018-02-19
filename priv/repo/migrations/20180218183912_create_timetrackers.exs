@@ -4,8 +4,8 @@ defmodule Tasktracker.Repo.Migrations.CreateTimetrackers do
   def change do
     create table(:timetrackers) do
       add :time, :integer
-      add :user_id, references(:users, on_delete: :nothing)
-      add :task_id, references(:tasks, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all)
+      add :task_id, references(:tasks, on_delete: :delete_all)
 
       timestamps()
     end
