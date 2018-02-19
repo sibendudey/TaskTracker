@@ -9,7 +9,7 @@ defmodule TasktrackerWeb.SessionController do
       conn
       |> put_session(:user_id, user.id)
       |> put_flash(:info, "Welcome back #{user.name}")
-      |> redirect(to: page_path(conn, :feed, user: user))
+      |> redirect(to: page_path(conn, :feed, user_id: user.id))
     else
       conn
       |> put_flash(:error, "Can't create session")

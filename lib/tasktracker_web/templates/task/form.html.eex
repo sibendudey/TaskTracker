@@ -13,8 +13,18 @@
 
  <div class="form-group">
    <%= label f, :user_id, "Assigned To", class: "control-label" %>
-   <%= select f, :user_id, @users ,class: "form-control" %>
+   <%= select f, :user_id, @users ,class: "form-control", id: "select-user-id" %>
  </div>
+
+
+   <%= inputs_for f, :timetrackers , fn i -> %>
+   <div class="form-group">
+        <%= label i, :time, "Time Taken", class: "control-label" %>
+        <%= text_input i, :time, class: "form-control", placeholder: 0 %>
+        <%= error_tag f, :time %>
+   </div>
+    <% end %>
+
 
   <div class="form-group">
     <%= label f, :description, class: "control-label" %>

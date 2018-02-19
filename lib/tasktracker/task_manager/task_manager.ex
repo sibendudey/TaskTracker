@@ -38,6 +38,7 @@ defmodule Tasktracker.TaskManager do
   def get_task!(id) do
     Repo.get!(Task, id)
     |> Repo.preload(:user)
+    |> Repo.preload(:timetrackers)
   end
 
   @doc """
@@ -62,6 +63,10 @@ defmodule Tasktracker.TaskManager do
 
   """
   def create_task(attrs \\ %{}) do
+#    IO.inspect "Attributes are"
+#    IO.inspect "Attributes are"
+#    IO.inspect attrs."timetrackers"."0"
+
     %Task{}
     |> Task.changeset(attrs)
     |> Repo.insert()
@@ -80,6 +85,7 @@ defmodule Tasktracker.TaskManager do
 
   """
   def update_task(%Task{} = task, attrs) do
+
     task
     |> Task.changeset(attrs)
     |> Repo.update()
@@ -113,4 +119,106 @@ defmodule Tasktracker.TaskManager do
   def change_task(%Task{} = task) do
     Task.changeset(task, %{})
   end
+
+  alias Tasktracker.TaskManager.Timetracker
+
+  @doc """
+  Returns the list of timetrackers.
+
+  ## Examples
+
+      iex> list_timetrackers()
+      [%Timetracker{}, ...]
+
+  """
+  def list_timetrackers do
+    Repo.all(Timetracker)
+  end
+
+  @doc """
+  Gets a single timetracker.
+
+  Raises `Ecto.NoResultsError` if the Timetracker does not exist.
+
+  ## Examples
+
+      iex> get_timetracker!(123)
+      %Timetracker{}
+
+      iex> get_timetracker!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_timetracker!(id), do: Repo.get!(Timetracker, id)
+
+  @doc """
+  Creates a timetracker.
+
+  ## Examples
+
+      iex> create_timetracker(%{field: value})
+      {:ok, %Timetracker{}}
+
+      iex> create_timetracker(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_timetracker(attrs \\ %{}) do
+    %Timetracker{}
+    |> Timetracker.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a timetracker.
+
+  ## Examples
+
+      iex> update_timetracker(timetracker, %{field: new_value})
+      {:ok, %Timetracker{}}
+
+      iex> update_timetracker(timetracker, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_timetracker(%Timetracker{} = timetracker, attrs) do
+    timetracker
+    |> Timetracker.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a Timetracker.
+
+  ## Examples
+
+      iex> delete_timetracker(timetracker)
+      {:ok, %Timetracker{}}
+
+      iex> delete_timetracker(timetracker)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_timetracker(%Timetracker{} = timetracker) do
+    Repo.delete(timetracker)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking timetracker changes.
+
+  ## Examples
+
+      iex> change_timetracker(timetracker)
+      %Ecto.Changeset{source: %Timetracker{}}
+
+  """
+  def change_timetracker(%Timetracker{} = timetracker) do
+    Timetracker.changeset(timetracker, %{})
+  end
+
+  def get_timetracker_by_post_id_and_user_id(task_id, user_id) do
+    query = from t in Timetracker, where: t.user_id == ^user_id, where: t.task_id == ^task_id
+    Repo.all(query)
+  end
+
 end

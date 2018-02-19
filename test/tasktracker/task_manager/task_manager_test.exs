@@ -66,4 +66,64 @@ defmodule Tasktracker.TaskManagerTest do
       assert %Ecto.Changeset{} = TaskManager.change_task(task)
     end
   end
+
+  describe "timetrackers" do
+    alias Tasktracker.TaskManager.Timetracker
+
+    @valid_attrs %{time: 42}
+    @update_attrs %{time: 43}
+    @invalid_attrs %{time: nil}
+
+    def timetracker_fixture(attrs \\ %{}) do
+      {:ok, timetracker} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> TaskManager.create_timetracker()
+
+      timetracker
+    end
+
+    test "list_timetrackers/0 returns all timetrackers" do
+      timetracker = timetracker_fixture()
+      assert TaskManager.list_timetrackers() == [timetracker]
+    end
+
+    test "get_timetracker!/1 returns the timetracker with given id" do
+      timetracker = timetracker_fixture()
+      assert TaskManager.get_timetracker!(timetracker.id) == timetracker
+    end
+
+    test "create_timetracker/1 with valid data creates a timetracker" do
+      assert {:ok, %Timetracker{} = timetracker} = TaskManager.create_timetracker(@valid_attrs)
+      assert timetracker.time == 42
+    end
+
+    test "create_timetracker/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = TaskManager.create_timetracker(@invalid_attrs)
+    end
+
+    test "update_timetracker/2 with valid data updates the timetracker" do
+      timetracker = timetracker_fixture()
+      assert {:ok, timetracker} = TaskManager.update_timetracker(timetracker, @update_attrs)
+      assert %Timetracker{} = timetracker
+      assert timetracker.time == 43
+    end
+
+    test "update_timetracker/2 with invalid data returns error changeset" do
+      timetracker = timetracker_fixture()
+      assert {:error, %Ecto.Changeset{}} = TaskManager.update_timetracker(timetracker, @invalid_attrs)
+      assert timetracker == TaskManager.get_timetracker!(timetracker.id)
+    end
+
+    test "delete_timetracker/1 deletes the timetracker" do
+      timetracker = timetracker_fixture()
+      assert {:ok, %Timetracker{}} = TaskManager.delete_timetracker(timetracker)
+      assert_raise Ecto.NoResultsError, fn -> TaskManager.get_timetracker!(timetracker.id) end
+    end
+
+    test "change_timetracker/1 returns a timetracker changeset" do
+      timetracker = timetracker_fixture()
+      assert %Ecto.Changeset{} = TaskManager.change_timetracker(timetracker)
+    end
+  end
 end
