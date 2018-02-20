@@ -10,6 +10,7 @@ defmodule TasktrackerWeb.PageController do
   def feed(conn, params) do
     tasks = Tasktracker.TaskManager.get_task_by_user_id(params["user_id"])
     task = %Task{timetrackers: [%Timetracker{}]}
+    IO.inspect tasks
 #    Changes that used to work
 #    changeset = Tasktracker.TaskManager.change_task(%Tasktracker.TaskManager.Task{})
     changeset = Tasktracker.TaskManager.change_task(task)
