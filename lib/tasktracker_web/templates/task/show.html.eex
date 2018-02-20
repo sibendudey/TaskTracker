@@ -31,8 +31,6 @@
       <strong>Time Spent:</strong>
       <%= Enum.at(@task.timetrackers, 0) |> Map.get(:time, 0) %>
     </li>
-
-
 </ul>
 
 <span>

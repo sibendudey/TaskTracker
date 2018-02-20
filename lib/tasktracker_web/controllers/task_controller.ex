@@ -77,8 +77,7 @@ defmodule TasktrackerWeb.TaskController do
   end
 
   def show(conn, %{"id" => id}) do
-    task = TaskManager.get_task!(id)
-    IO.inspect task
+    task = TaskManager.get_task_with_single_timetracker!(id, get_session(conn, :user_id))
     render(conn, "show.html", task: task)
   end
 
