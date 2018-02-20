@@ -42,10 +42,12 @@ defmodule Tasktracker.TaskManager do
     |> Repo.preload(:timetrackers)
   end
 
+
+
   @doc """
 
   """
-  def get_task!(id, user_id) do
+  def get_task_with_single_timetracker!(id, user_id) do
     Repo.get!(Task, id)
     |> Repo.preload(:user)
     |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
@@ -79,7 +81,7 @@ defmodule Tasktracker.TaskManager do
 #    IO.inspect attrs."timetrackers"."0"
 
     %Task{}
-    |> Task.changeset(attrs)
+    |> Task.changesetWithTimetracker(attrs)
     |> Repo.insert()
   end
 
@@ -96,7 +98,6 @@ defmodule Tasktracker.TaskManager do
 
   """
   def update_task(%Task{} = task, attrs) do
-
     task
     |> Task.changeset(attrs)
     |> Repo.update()
@@ -176,6 +177,12 @@ defmodule Tasktracker.TaskManager do
   """
   def create_timetracker(attrs \\ %{}) do
     %Timetracker{}
+    |> Timetracker.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def create_timetracker_with_post(%Timetracker{} = timetracker, attrs \\ %{}) do
+    timetracker
     |> Timetracker.changeset(attrs)
     |> Repo.insert()
   end

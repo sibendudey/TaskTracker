@@ -27,17 +27,7 @@
     <%end%>
   </li>
 
-  <li>
-      <strong>Completed:</strong>
-      <%= if @task.completed do %>
-          Done
-      <% end %>
-      <%= if !@task.completed do %>
-      Not Completed
-      <%end%>
-    </li>
-
 </ul>
 
 <span><%= link "Edit", to: task_path(@conn, :edit, @task) %></span>
-<span><%= link "Back", to: page_path(@conn, :feed, user_id: @current_user.id) %></span>
+    <span><%= link "Back", to: page_path(@conn, :feed, user_id: @current_user.id) %></span>

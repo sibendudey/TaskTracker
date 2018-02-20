@@ -17,7 +17,15 @@ defmodule Tasktracker.TaskManager.Task do
     task
     |> cast(attrs, [:title, :description, :completed, :user_id])
     |> validate_required([:title, :description, :completed, :user_id])
-#   |> cast_assoc(:timetrackers, required: true)
+    |> cast_assoc(:timetrackers)
+  end
+
+  @doc false
+  def changesetWithTimetracker(%Task{} = task, attrs) do
+    task
+    |> cast(attrs, [:title, :description, :completed, :user_id])
+    |> validate_required([:title, :description, :completed, :user_id])
+    |> cast_assoc(:timetrackers)
   end
 
   @doc false
@@ -27,5 +35,7 @@ defmodule Tasktracker.TaskManager.Task do
     |> validate_required([:title, :description, :completed, :user_id])
     |> cast_assoc(:timetrackers, required: true)
   end
+
+
 
 end

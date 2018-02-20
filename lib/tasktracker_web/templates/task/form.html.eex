@@ -22,7 +22,7 @@
         <%= label i, :time, "Time Taken", class: "control-label" %>
         <%= hidden_input i, :user_id, class: "control-label" %>
         <%= text_input i, :time, class: "form-control", placeholder: 0 %>
-        <%= error_tag f, :time %>
+        <%= error_tag i, :time %>
    </div>
     <% end %>
 
