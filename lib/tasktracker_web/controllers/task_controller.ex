@@ -38,11 +38,13 @@ defmodule TasktrackerWeb.TaskController do
                          |> Map.get("0")
                          |> Map.put("user_id", String.to_integer(Map.get(task_params, "user_id")))
 
-
-#    tasktracker_params = for {key, val} <- tasktracker_params, into: %{}, do: {String.to_atom(key), val}
-
+    
+    if tasktracker_params.user_id != get_session(conn, :user_id) do
+      tasktracker_params = tasktracker_params |> Map.delete(:time)
+    end
 
     changeset = Timetracker.changeset(%Timetracker{}, tasktracker_params)
+
 
     case changeset.valid? do
       true -> IO.puts "changeset is valid"

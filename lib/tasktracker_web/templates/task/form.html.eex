@@ -21,7 +21,7 @@
    <div class="form-group">
         <%= label i, :time, "Time Taken", class: "control-label" %>
         <%= hidden_input i, :user_id, class: "control-label" %>
-        <%= text_input i, :time, class: "form-control", placeholder: 0 %>
+        <%= text_input i, :time, class: "form-control", placeholder: "Enter time spent in this task" %>
         <%= error_tag i, :time %>
    </div>
     <% end %>
