@@ -1,4 +1,4 @@
-<p><h1>Welcome to Task tracking app</h1></p>
+<h1>Welcome to Task tracking app</h1>
     <!-- session_path(@conn, :create) -->
     <%= if @current_user do  %>
     <div>You are logged in.</div>
