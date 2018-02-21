@@ -1,20 +1,31 @@
 # Tasktracker
 
-To start your Phoenix server:
+Design choices
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+I have three tables.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+1. Users
+2. tasks
+3. timetrackers
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+-> Users
+* Users has a has_many relationship with tasks
+* Users has a has_many relationship with timetrackers
 
-## Learn more
+-> Tasks
+* Task belongs to a single user.
+* Task has a has_many relationship with timetrackers
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+-> Timetrackers
+
+* The purpose of the table was to keep track of the time spent by each user
+  on a task. When a task is assigned to a user A and the user A works on the
+  task for a certain duration of time before reassigning to another user B, if the
+  user B reassigns the task to user A, there should be a way to track the time
+  spent by user A on the task. This table fulfills this purpose.
+
+* This table can also be used to show all the tasks that the user has worked upon,
+  irrespective of whether the task is currently assigned to the user or not. My web
+  application currently doesn't support this feature.
+  
+
