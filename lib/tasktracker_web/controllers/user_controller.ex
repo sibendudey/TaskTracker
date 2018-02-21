@@ -5,10 +5,10 @@ defmodule TasktrackerWeb.UserController do
   alias Tasktracker.Accounts.User
 
 
-  def index(conn, _params) do
-    users = Accounts.list_users()
-    render(conn, "index.html", users: users)
-  end
+#  def index(conn, _params) do
+#    users = Accounts.list_users()
+#    render(conn, "index.html", users: users)
+#  end
 
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{})
@@ -42,7 +42,6 @@ defmodule TasktrackerWeb.UserController do
 
   def update(conn, %{"id" => id, "user" => user_params}) do
     user = Accounts.get_user!(id)
-
     case Accounts.update_user(user, user_params) do
       {:ok, user} ->
         conn
