@@ -16,6 +16,9 @@ defmodule TasktrackerWeb.PageController do
   end
 
   def profile(conn, params) do
-    render conn, "profile.html"
+    current_user = conn.assigns[:current_user]
+    users = Tasktracker.Accounts.list_users_for_manage(current_user.id)
+    manages = Tasktracker.Accounts.managee_map_for(current_user.id)
+    render conn, "profile.html", users: users, manages: manages
   end
 end
