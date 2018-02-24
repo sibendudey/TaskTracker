@@ -1,0 +1,6 @@
+<div>
+Welcome to your profile page: <%= @current_user.name %>
+
+Watch out for updates!!!!!
+
+</div>

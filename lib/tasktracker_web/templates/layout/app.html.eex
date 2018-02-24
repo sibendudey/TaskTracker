@@ -12,27 +12,29 @@
   </head>
 
   <body>
-    <div class="row">
-          <div class="col-3 offset-9">
-            <%= if @current_user do %>
-              <p>
-                Logged in as: <%= @current_user.name %> |
-                <%= link "Log Out", to: "/session", method: :delete %>
-              </p>
-            <% else %>
-              <p>Not logged in.</p>
-            <% end %>
-          </div>
-        </div>
     <div class="container">
+    <div class="row">
+              <div class="col-3 offset-0">
+              <p>Profile Page: <%= link "Profile", to: "/profile" %></p>
+              </div>
+              <div class="col-3 offset-9">
+                <%= if @current_user do %>
+                  <p>
+                    Logged in as: <%= @current_user.name %>
+                    <%= link "Log Out", to: "/session", method: :delete %>
+                  </p>
+                <% else %>
+                  <p>Not logged in.</p>
+                <% end %>
+              </div>
+      </div>
       <%= if get_flash(@conn, :info) do  %>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <% end %>
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
-
-    </div> <!-- /container -->
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

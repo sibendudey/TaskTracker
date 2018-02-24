@@ -53,21 +53,15 @@ defmodule Tasktracker.TaskManager do
     |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
   end
 
-  @doc """
-
-  """
-  def get_task_by_user_id(user_id) do
-    query = from t in Task, where: t.user_id == ^user_id
-    Repo.all(query)
-    |> Repo.preload(:user)
-    |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
-  end
-
   def get_tasks_by_user_id(user_id) do
-    query = from t in Timetracker, where: t.user_id == ^user_id
-    Repo.all(query)
-    |> Repo.preload(:user)
-    |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
+    query = from t in Task,
+                 join: tt in Timetracker,
+                 on: tt.task_id == t.id,
+                 where: tt.user_id == ^user_id
+
+    result = Repo.all(query) |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
+    IO.inspect result
+    result
   end
 
 

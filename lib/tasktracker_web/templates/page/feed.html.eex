@@ -34,14 +34,14 @@
       <% end %>
       </td>
       <td><%= Enum.at(task.timetrackers, 0) |> Map.get(:time, 0) %></td>
-      <td class="text-right">
-        <span><%= link "Show", to: task_path(@conn, :show, task), class: "btn btn-default btn-xs" %></span>
-        <span>
-        <%= if !task.completed do %>
-        <%= link "Edit", to: task_path(@conn, :edit, task), class: "btn btn-default btn-xs" %>
+        <td >
+        <%= link "Show", to: task_path(@conn, :show, task), class: "pull-right btn btn-default btn-xs" %>
+        <div>
+        <%= if !task.completed && task.user_id == @conn.params[:user_id] do %>
+        <%= link "Edit", to: task_path(@conn, :edit, task), class: "pull-right btn btn-default btn-xs" %>
         <% end %>
-        </span>
-        <span><%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+        </div>
+        <div><%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "pull-right btn btn-danger btn-xs" %></div>
       </td>
     </tr>
 <% end %>
