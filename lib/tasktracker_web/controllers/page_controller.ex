@@ -8,6 +8,7 @@ defmodule TasktrackerWeb.PageController do
   end
 
   def feed(conn, params) do
+#    tasks = Tasktracker.TaskManager.get_task_by_user_id(params["user_id"])
     tasks = Tasktracker.TaskManager.get_task_by_user_id(params["user_id"])
     task = %Task{timetrackers: [%Timetracker{}]}
     IO.inspect tasks

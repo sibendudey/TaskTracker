@@ -17,7 +17,13 @@
     <%= error_tag f, :email %>
   </div>
 
-  <div class="form-group">
+   <div class="form-group">
+       <%= label f, "Are you a Manager?", class: "control-label" %>
+       <%= checkbox f, :manager, class: "checkbox" %>
+       <%= error_tag f, :manager %>
+   </div>
+
+   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

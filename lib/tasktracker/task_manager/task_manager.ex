@@ -63,6 +63,14 @@ defmodule Tasktracker.TaskManager do
     |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
   end
 
+  def get_tasks_by_user_id(user_id) do
+    query = from t in Timetracker, where: t.user_id == ^user_id
+    Repo.all(query)
+    |> Repo.preload(:user)
+    |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
+  end
+
+
   @doc """
   Creates a task.
 
