@@ -8,6 +8,7 @@ defmodule Tasktracker.TaskManager do
 
   alias Tasktracker.TaskManager.Task
   alias Tasktracker.TaskManager.Timetracker
+  alias Tasktracker.Accounts.Manage
 
   @doc """
   Returns the list of tasks.
@@ -59,9 +60,22 @@ defmodule Tasktracker.TaskManager do
                  on: tt.task_id == t.id,
                  where: tt.user_id == ^user_id
 
-    result = Repo.all(query) |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
-    IO.inspect result
-    result
+    Repo.all(query) |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
+  end
+
+  @doc """
+
+  """
+  def get_managee_tasks(manager_user_id) do
+    query = from t in Task,
+                 join: m in Manage, on: m.managee_id == t.user_id,
+                 join: tt in assoc(t, :timetrackers),
+                 where: m.manager_id == ^manager_user_id,
+                 where: tt.user_id == t.user_id,
+                 preload: [timetrackers: tt],
+                 preload: :user
+
+    Repo.all(query)
   end
 
 
@@ -78,10 +92,6 @@ defmodule Tasktracker.TaskManager do
 
   """
   def create_task(attrs \\ %{}) do
-#    IO.inspect "Attributes are"
-#    IO.inspect "Attributes are"
-#    IO.inspect attrs."timetrackers"."0"
-
     %Task{}
     |> Task.changesetWithTimetracker(attrs)
     |> Repo.insert()
@@ -237,8 +247,6 @@ defmodule Tasktracker.TaskManager do
   end
 
   def get_timetracker_by_post_id_and_user_id(task_id, user_id) do
-#    query = from t in Timetracker, where: t.user_id == ^user_id, where: t.task_id == ^task_id
-#    Repo.get!(Timetracker, )
     Repo.get_by(Timetracker, user_id: user_id, task_id: task_id)
   end
 

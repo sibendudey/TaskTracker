@@ -1,0 +1,41 @@
+<h1>Managees Task Feed</h1>
+
+<%= if @tasks do %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Assigned To</th>
+      <th>Completed</th>
+      <th>Time Spent</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for task <- @tasks do %>
+    <tr>
+      <td><%= task.title %></td>
+      <td><%= task.description %></td>
+      <td><%= task.user.name %></td>
+      <td>
+      <%= if task.completed do %>
+        Yes
+      <% end %>
+      <%= if !task.completed do %>
+         No
+      <% end %>
+      </td>
+      <td><%= Enum.at(task.timetrackers, 0) |> Map.get(:time, 0) %></td>
+        <td class="text-right">
+        <%= link "Show", to: task_path(@conn, :show, task), class: "pull-right btn btn-default btn-xs" %>
+        <%= if !task.completed do %>
+        <%= link "Edit", to: task_path(@conn, :edit, task), class: "pull-right btn btn-default btn-xs" %>
+        <% end %>
+        <%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "pull-right btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<% end %>

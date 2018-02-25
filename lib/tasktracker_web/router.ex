@@ -27,6 +27,7 @@ defmodule TasktrackerWeb.Router do
 
     get "/", PageController, :index
     get "/feed", PageController, :feed
+    get "/managee_feed", PageController, :managee_feed
     get "/profile", PageController, :profile
     resources "/users", UserController
     resources "/tasks", TaskController

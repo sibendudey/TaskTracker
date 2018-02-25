@@ -16,6 +16,12 @@ defmodule TasktrackerWeb.PageController do
     render conn, "feed.html", tasks: tasks, changeset: changeset, users: users
   end
 
+  def managee_feed(conn, params) do
+    current_manager = conn.assigns[:current_user]
+    tasks = Tasktracker.TaskManager.get_managee_tasks(current_manager.id)
+    render conn, "managee_feed.html", tasks: tasks
+  end
+
   def profile(conn, params) do
     current_user = conn.assigns[:current_user]
     users = Tasktracker.Accounts.list_users_for_manage(current_user.id)

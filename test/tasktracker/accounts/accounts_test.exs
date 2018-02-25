@@ -64,4 +64,62 @@ defmodule Tasktracker.AccountsTest do
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
   end
+
+  describe "manages" do
+    alias Tasktracker.Accounts.Manage
+
+    @valid_attrs %{}
+    @update_attrs %{}
+    @invalid_attrs %{}
+
+    def manage_fixture(attrs \\ %{}) do
+      {:ok, manage} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Accounts.create_manage()
+
+      manage
+    end
+
+    test "list_manages/0 returns all manages" do
+      manage = manage_fixture()
+      assert Accounts.list_manages() == [manage]
+    end
+
+    test "get_manage!/1 returns the manage with given id" do
+      manage = manage_fixture()
+      assert Accounts.get_manage!(manage.id) == manage
+    end
+
+    test "create_manage/1 with valid data creates a manage" do
+      assert {:ok, %Manage{} = manage} = Accounts.create_manage(@valid_attrs)
+    end
+
+    test "create_manage/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Accounts.create_manage(@invalid_attrs)
+    end
+
+    test "update_manage/2 with valid data updates the manage" do
+      manage = manage_fixture()
+      assert {:ok, manage} = Accounts.update_manage(manage, @update_attrs)
+      assert %Manage{} = manage
+    end
+
+    test "update_manage/2 with invalid data returns error changeset" do
+      manage = manage_fixture()
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_manage(manage, @invalid_attrs)
+      assert manage == Accounts.get_manage!(manage.id)
+    end
+
+    test "delete_manage/1 deletes the manage" do
+      manage = manage_fixture()
+      assert {:ok, %Manage{}} = Accounts.delete_manage(manage)
+      assert_raise Ecto.NoResultsError, fn -> Accounts.get_manage!(manage.id) end
+    end
+
+    test "change_manage/1 returns a manage changeset" do
+      manage = manage_fixture()
+      assert %Ecto.Changeset{} = Accounts.change_manage(manage)
+    end
+  end
 end

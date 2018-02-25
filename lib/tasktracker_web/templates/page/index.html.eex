@@ -2,7 +2,10 @@
     <!-- session_path(@conn, :create) -->
     <%= if @current_user do  %>
     <div>You are logged in.</div>
-    <%= link "Task Page", to: page_path(@conn, :feed, user_id: @current_user.id) %>
+    <p><%= link "Task Page", to: page_path(@conn, :feed, user_id: @current_user.id) %></p>
+    <%= if @current_user.manager do  %>
+    <p><%= link "Managee Task Page", to: page_path(@conn, :managee_feed, user_id: @current_user.id) %></p>
+    <% end %>
     <% else %>
     <h1>Log In</h1>
     <%= form_tag("/session", method: :post) do %>

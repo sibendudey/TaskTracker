@@ -40,7 +40,6 @@ defmodule Tasktracker.Accounts do
     Repo.all(query)
   end
 
-
   @doc """
   Gets a single user.
 

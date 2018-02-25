@@ -3,11 +3,12 @@
  window.current_user_id = "<%= @current_user.id %>";
 </script>
 <div>
-<span>Welcome to your profile page: <%= @current_user.name %></span>
-<div>
-<%=if @manager != "" do %>
+<p>Welcome to your profile page: <%= @current_user.name %></p>
+<p><%=if @manager != "" do %>
 Your manager is <%= @manager.name %>
-<% end %>
+<% end %></p>
+<%= if @current_user.manager do %>
+<div>
 <h2>Listing Users</h2>
 <table class="table">
   <thead>
@@ -34,3 +35,6 @@ Your manager is <%= @manager.name %>
 <% end %>
   </tbody>
 </table>
+<% end %>
+</div>
+</div>
