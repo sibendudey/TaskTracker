@@ -32,7 +32,12 @@ defmodule Tasktracker.Accounts do
 
   """
   def list_users_for_manage(current_user_id) do
-    Repo.all(from u in User, where: u.id != ^current_user_id)
+    query = from u in User,
+                 left_join: m in Manage, on: u.id == m.managee_id,
+                 where: is_nil(m.managee_id) or m.manager_id == ^current_user_id,
+                 where: u.id != ^current_user_id
+
+    Repo.all(query)
   end
 
 
@@ -56,7 +61,7 @@ defmodule Tasktracker.Accounts do
 
   """
   # We want a non-bang variant
-  def get_user(id), do: Repo.get(User, id)
+  def get_user(id), do: Repo.get(User, id) |> Repo.preload(:manager_user)
 
   @doc """
   Creates a user.
@@ -81,7 +86,7 @@ defmodule Tasktracker.Accounts do
   """
 
   def get_user_by_email(email) do
-    Repo.get_by(User, email: email) |> Repo.preload(:manager)
+    Repo.get_by(User, email: email) |> Repo.preload(:manager_user)
   end
 
   @doc """
@@ -136,17 +141,26 @@ defmodule Tasktracker.Accounts do
   """
   def managee_map_for(user_id) do
     managees = Repo.all(from m in Manage, where: m.manager_id == ^user_id)
-    IO.inspect managees
 
-    managees = managees
+    managees
     |> Enum.map(&({&1.managee_id, &1.id}))
     |> Enum.into(%{})
 
-    IO.inspect managees
-
-    managees
   end
 
+  @doc """
+  Returns the manager of the user if any exists
+  """
+
+  def get_manager(user_id) do
+    manage = Repo.get_by(Manage, managee_id: user_id)
+    if manage do
+      manager = Repo.get(User, manage.manager_id)
+      {:ok, manager}
+    else
+      {:manager_not_found, ""}
+    end
+  end
   @doc """
   Returns the list of manages.
 
@@ -240,4 +254,5 @@ defmodule Tasktracker.Accounts do
   def change_manage(%Manage{} = manage) do
     Manage.changeset(manage, %{})
   end
+
 end

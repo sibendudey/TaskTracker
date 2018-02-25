@@ -4,9 +4,11 @@
 </script>
 <div>
 <span>Welcome to your profile page: <%= @current_user.name %></span>
-</div>
+<div>
+<%=if @manager != "" do %>
+Your manager is <%= @manager.name %>
+<% end %>
 <h2>Listing Users</h2>
-
 <table class="table">
   <thead>
     <tr>
