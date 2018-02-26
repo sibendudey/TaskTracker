@@ -26,10 +26,16 @@
         No
     <%end%>
   </li>
-
     <li>
       <strong>Time Spent:</strong>
-      <%= Enum.at(@task.timetrackers, 0) |> Map.get(:time, 0) %>
+      <ul>
+        <%= for timeblock <- @task.timeblocks do %>
+            <li>Start Time: <%=
+            Timex.local(timeblock.starttime)
+            %></li>
+            <li>End Time: <%= Timex.local(timeblock.endtime)%></li>
+        <% end %>
+      </ul>
     </li>
 </ul>
 

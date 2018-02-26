@@ -107,24 +107,22 @@ function manage_time_click(ev) {
         btn.text('Stop Working');
     }
     else {
-        console.log("Start time is set")
         let btn = $(ev.target);
         let start_time = btn.data('start-time');
         let task_id = btn.data('task-id');
         let user_id = btn.data('user-id');
-        console.log(start_time, task_id, user_id);
         create_time_block(start_time, task_id, user_id);
     }
 }
 
 function create_time_block(start_time, task_id, user_id) {
-    let end_time = new Date();
+    let end_time = new Date().toJSON();
     let text = JSON.stringify({
         timeblock: {
             task_id: task_id,
             user_id: user_id,
             starttime: start_time,
-            endtime: end_time.toJSON()
+            endtime: end_time
         },
     });
 

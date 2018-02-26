@@ -1,5 +1,9 @@
 <h1>Managees Task Feed</h1>
 
+
+<%= render TasktrackerWeb.TaskView, "form.html",
+        Map.put(assigns, :action, task_path(@conn, :create)) %>
+
 <%= if @tasks do %>
 <table class="table">
   <thead>

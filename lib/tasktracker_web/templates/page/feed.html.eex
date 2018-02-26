@@ -1,14 +1,9 @@
-<%= if @current_user do %>
-  <div class="row">
-    <div class="col">
-      <%= render TasktrackerWeb.TaskView, "form.html",
-          Map.put(assigns, :action, task_path(@conn, :create)) %>
-    </div>
-  </div>
-<% end %>
-
 <h1>Your Task Feed</h1>
 
+<%= if Enum.count(@tasks) == 0 do %>
+<p> Tasks assigned to you will show up in this place </p>
+<% end %>
+<%= if Enum.count(@tasks) != 0 do %>
 <%= if @tasks do %>
 <table class="table">
   <thead>
@@ -33,17 +28,18 @@
          No
       <% end %>
       </td>
-      <td><%= Enum.at(task.timetrackers, 0) |> Map.get(:time, 0) %></td>
+      <td><%= if !task.completed && task.user_id == @current_user.id do %>
+      <button class="time-block" data-start-time="" data-task-id="<%= task.id%>" data-user-id="<%= @current_user.id %>">Start Working</button><%end%></td>
         <td class="text-right">
         <%= link "Show", to: task_path(@conn, :show, task), class: "btn btn-default btn-xs" %>
         <%= if !task.completed && task.user_id == @current_user.id do %>
         <%= link "Edit", to: task_path(@conn, :edit, task), class: "btn btn-default btn-xs" %>
         <% end %>
-
         <%= link "Delete", to: task_path(@conn, :delete, task), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
+<% end %>
 <% end %>

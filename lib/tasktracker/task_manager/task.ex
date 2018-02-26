@@ -9,6 +9,7 @@ defmodule Tasktracker.TaskManager.Task do
     field :title, :string
     belongs_to :user, Tasktracker.Accounts.User
     has_many :timetrackers, Tasktracker.TaskManager.Timetracker
+    has_many :timeblocks, Tasktracker.TaskManager.Timeblock
     timestamps()
   end
 
