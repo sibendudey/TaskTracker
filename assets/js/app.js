@@ -97,4 +97,60 @@ function init_follow() {
     update_buttons();
 }
 
+function manage_time_click(ev) {
+    let btn = $(ev.target);
+    let start_time = btn.data('start-time');
+    if ( start_time == '')   {
+        let date_now = new Date();
+        console.log(date_now.toJSON());
+        btn.data('start-time', date_now.toJSON());
+        btn.text('Stop Working');
+    }
+    else {
+        console.log("Start time is set")
+        let btn = $(ev.target);
+        let start_time = btn.data('start-time');
+        let task_id = btn.data('task-id');
+        let user_id = btn.data('user-id');
+        console.log(start_time, task_id, user_id);
+        create_time_block(start_time, task_id, user_id);
+    }
+}
+
+function create_time_block(start_time, task_id, user_id) {
+    let end_time = new Date();
+    let text = JSON.stringify({
+        timeblock: {
+            task_id: task_id,
+            user_id: user_id,
+            starttime: start_time,
+            endtime: end_time.toJSON()
+        },
+    });
+
+    $.ajax("/api/v1/timeblocks", {
+        method: "post",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: text,
+        success: (resp) => { reset_button(task_id); },
+    });
+}
+
+function reset_button(task_id)  {
+    $('.time-block').each( (_, bb) => {
+        if (task_id == $(bb).data('task-id')) {
+            $(bb).data('start-time', "");
+            $(bb).text('Start Working');
+        }
+    });
+}
+
+function init_time_tracker()    {
+    if (!$(".time-block"))  {return;}
+    $(".time-block").click(manage_time_click);
+}
+
 $(init_follow);
+
+$(init_time_tracker);
