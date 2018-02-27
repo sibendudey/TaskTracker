@@ -4,12 +4,6 @@ defmodule TasktrackerWeb.UserController do
   alias Tasktracker.Accounts
   alias Tasktracker.Accounts.User
 
-
-#  def index(conn, _params) do
-#    users = Accounts.list_users()
-#    render(conn, "index.html", users: users)
-#  end
-
   def new(conn, _params) do
     changeset = Accounts.change_user(%User{})
     render(conn, "new.html", changeset: changeset)
@@ -23,7 +17,7 @@ defmodule TasktrackerWeb.UserController do
         |> put_session(:user_id, user.id)
         |> put_flash(:info, "Welcome back #{user.name}")
 #        |> redirect(to: user_path(conn, :show, user))
-        |> redirect(to: "/")
+        |> redirect(to: page_path(conn, :profile, user_id: user.id))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
