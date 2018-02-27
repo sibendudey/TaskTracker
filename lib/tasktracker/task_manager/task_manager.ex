@@ -85,8 +85,10 @@ defmodule Tasktracker.TaskManager do
   """
   def get_managee_tasks(manager_user_id) do
     query = from t in Task,
+                 left_join: tb in Timeblock, on: tb.task_id == t.id,
                  join: m in Manage, on: m.managee_id == t.user_id,
                  where: m.manager_id == ^manager_user_id,
+                 preload: [timeblocks: tb],
                  preload: :user
 
     Repo.all(query)

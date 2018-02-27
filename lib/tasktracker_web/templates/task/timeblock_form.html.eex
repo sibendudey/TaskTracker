@@ -26,7 +26,7 @@
       <% end %>
 
    <%= if @current_user.id == @task.user_id do  %>
-   <%= inputs_for f, :timeblocks , fn i -> %>
+   <%= inputs_for f, :timeblocks, fn i -> %>
    <div class="form-group">
         <%= label i, :starttime, "Start Time: ", class: "control-label" %>
         <%= datetime_select i, :starttime %>
@@ -35,10 +35,10 @@
         <div>
         <%= error_tag i, :starttime %>
         </div>
+        <%= link "Delete", to: timeblock_path(@conn, :delete, i.data.id), method: :delete %>
    </div>
     <% end %>
     <% end %>
-
 
   <div class="form-group">
     <%= label f, :description, class: "control-label" %>

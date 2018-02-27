@@ -36,7 +36,12 @@ defmodule TasktrackerWeb.TimeblockController do
   def delete(conn, %{"id" => id}) do
     timeblock = TaskManager.get_timeblock!(id)
     with {:ok, %Timeblock{}} <- TaskManager.delete_timeblock(timeblock) do
-      send_resp(conn, :no_content, "")
+      task = TaskManager.get_task_with_time_blocks!(timeblock.task_id, conn.assigns[:current_user].id)
+      users = Tasktracker.Accounts.list_users_for_task_assignment(conn.assigns[:current_user].id)
+              |> Enum.map(&{&1.name, &1.id})
+      changeset = TaskManager.change_task(task)
+      render(conn, TasktrackerWeb.TaskView , "edit.html", task: task, changeset: changeset, users: users)
     end
   end
+
 end

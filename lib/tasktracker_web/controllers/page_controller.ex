@@ -17,11 +17,11 @@ defmodule TasktrackerWeb.PageController do
   end
 
   def managee_feed(conn, params) do
-    current_manager = conn.assigns[:current_user]
-    tasks = Tasktracker.TaskManager.get_managee_tasks(current_manager.id)
+    current_user = conn.assigns[:current_user]
+    tasks = Tasktracker.TaskManager.get_managee_tasks(current_user.id)
     task = %Task{timetrackers: [%Timetracker{}]}
     changeset = Tasktracker.TaskManager.change_task(task)
-    users = Tasktracker.Accounts.list_users_for_task_assignment(current_manager.id)
+    users = Tasktracker.Accounts.list_users_for_task_assignment(current_user.id)
             |> Enum.map(&{&1.name, &1.id})
     render conn, "managee_feed.html", tasks: tasks, changeset: changeset, users: users
   end

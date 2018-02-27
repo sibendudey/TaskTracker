@@ -1,5 +1,4 @@
 <h1>Your Task Feed</h1>
-
 <%= if Enum.count(@tasks) == 0 do %>
 <p> Tasks assigned to you will show up in this place </p>
 <% else %>
@@ -10,7 +9,9 @@
       <th>Title</th>
       <th>Description</th>
       <th>Completed</th>
-      <th>Time Spent</th>
+      <th>Time Spent
+      (Minutes)</th>
+      <th></th>
       <th></th>
     </tr>
   </thead>
@@ -27,6 +28,8 @@
          No
       <% end %>
       </td>
+      <td><%= List.foldl( task.timeblocks,0 ,fn(x, acc) -> acc + DateTime.diff(x.endtime, x.starttime) end)
+      |> div(60) %></td>
       <td><%= if !task.completed && task.user_id == @current_user.id do %>
       <button class="time-block" data-start-time="" data-task-id="<%= task.id%>" data-user-id="<%= @current_user.id %>">Start Working</button><%end%></td>
         <td class="text-right">

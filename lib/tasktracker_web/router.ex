@@ -33,6 +33,7 @@ defmodule TasktrackerWeb.Router do
     resources "/tasks", TaskController
     post "/session", SessionController, :create
     delete "/session",SessionController, :delete
+    delete "/timeblocks/:id", TimeblockController, :delete
   end
 
   scope "/api/v1", TasktrackerWeb do

@@ -12,7 +12,9 @@
       <th>Description</th>
       <th>Assigned To</th>
       <th>Completed</th>
-      <th>Time Spent</th>
+      <th>Time Spent
+         (Minutes)
+      </th>
       <th></th>
     </tr>
   </thead>
@@ -25,11 +27,12 @@
       <td>
       <%= if task.completed do %>
         Yes
-      <% end %>
-      <%= if !task.completed do %>
+      <% else %>
          No
       <% end %>
       </td>
+      <td><%= List.foldl(task.timeblocks,0 ,fn(x, acc) -> acc + DateTime.diff(x.endtime, x.starttime) end)
+            |> div(60) %></td>
       <td></td>
         <td class="text-right">
         <%= link "Show", to: task_path(@conn, :show, task), class: "pull-right btn btn-default btn-xs" %>
