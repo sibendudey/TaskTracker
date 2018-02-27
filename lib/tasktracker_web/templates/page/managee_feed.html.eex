@@ -1,9 +1,9 @@
 <h1>Managees Task Feed</h1>
-
-
-<%= render TasktrackerWeb.TaskView, "form.html",
-        Map.put(assigns, :action, task_path(@conn, :create)) %>
-
+<%= if Enum.count(@tasks) == 0 do %>
+<p> Tasks assigned to your managees will show up in this place </p>
+<p>Create a new task? <%= link "New Task" ,to: task_path(@conn, :new) %></p>
+<% else %>
+<p>Create a new task? <%= link "New Task" ,to: task_path(@conn, :new) %></p>
 <%= if @tasks do %>
 <table class="table">
   <thead>
@@ -30,7 +30,7 @@
          No
       <% end %>
       </td>
-      <td><%= Enum.at(task.timetrackers, 0) |> Map.get(:time, 0) %></td>
+      <td></td>
         <td class="text-right">
         <%= link "Show", to: task_path(@conn, :show, task), class: "pull-right btn btn-default btn-xs" %>
         <%= if !task.completed do %>
@@ -42,4 +42,5 @@
 <% end %>
   </tbody>
 </table>
+<% end %>
 <% end %>

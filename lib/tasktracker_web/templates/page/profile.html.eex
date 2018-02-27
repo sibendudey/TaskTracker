@@ -7,7 +7,10 @@
 <p><%=if @manager != "" do %>
 Your manager is <%= @manager.name %>
 <% end %></p>
+<p>Visit your task page: <%= link "Task Page", to: page_path(@conn, :feed, user_id: @current_user.id) %></p>
 <%= if @current_user.manager do %>
+<p>Visit your managee task page: <%= link "Managee Task Page", to: page_path(@conn, :managee_feed, user_id: @current_user.id) %></p>
+<p>Create a new task? <%= link "New Task" ,to: task_path(@conn, :new) %></p>
 <div>
 <h2>Listing Users</h2>
 <table class="table">

@@ -16,17 +16,6 @@
    <%= select f, :user_id, @users ,class: "form-control", id: "select-user-id" %>
  </div>
 
-
-   <%= inputs_for f, :timetrackers , fn i -> %>
-   <div class="form-group">
-        <%= label i, :time, "Time Taken", class: "control-label" %>
-        <%= hidden_input i, :user_id, class: "control-label" %>
-        <%= text_input i, :time, class: "form-control", placeholder: "Enter time spent in this task" %>
-        <%= error_tag i, :time %>
-   </div>
-    <% end %>
-
-
   <div class="form-group">
     <%= label f, :description, class: "control-label" %>
     <%= textarea f, :description, class: "form-control" %>

@@ -18,7 +18,7 @@ defmodule Tasktracker.TaskManager.Task do
     task
     |> cast(attrs, [:title, :description, :completed, :user_id])
     |> validate_required([:title, :description, :completed, :user_id])
-    |> cast_assoc(:timetrackers)
+    |> cast_assoc(:timeblocks)
   end
 
   @doc false

@@ -57,13 +57,27 @@ defmodule Tasktracker.TaskManager do
     |> Repo.preload(timeblocks:  from(tt in Timeblock, where: tt.user_id == ^user_id))
   end
 
+  @doc """
+
+  Returns a tasks with time blocks for managee task feed
+  """
+  def get_task_with_time_blocks_managee!(id, manager_id) do
+    query = from t in Task,
+              left_join: tb in Timeblock, on: tb.task_id == t.id,
+              where: is_nil(tb.user_id) or t.user_id == tb.user_id,
+              where: t.id == ^id,
+              preload: [timeblocks: tb],
+              preload: :user
+
+    Repo.one(query)
+  end
+
+
   def get_tasks_by_user_id(user_id) do
     query = from t in Task,
-                 join: tt in Timetracker,
-                 on: tt.task_id == t.id,
-                 where: tt.user_id == ^user_id
+                 where: t.user_id == ^user_id
 
-    Repo.all(query) |> Repo.preload(timetrackers:  from(tt in Timetracker, where: tt.user_id == ^user_id))
+    Repo.all(query) |> Repo.preload(timeblocks: from(tt in Timeblock, where: tt.user_id == ^user_id))
   end
 
   @doc """
@@ -72,10 +86,7 @@ defmodule Tasktracker.TaskManager do
   def get_managee_tasks(manager_user_id) do
     query = from t in Task,
                  join: m in Manage, on: m.managee_id == t.user_id,
-                 join: tt in assoc(t, :timetrackers),
                  where: m.manager_id == ^manager_user_id,
-                 where: tt.user_id == t.user_id,
-                 preload: [timetrackers: tt],
                  preload: :user
 
     Repo.all(query)

@@ -22,6 +22,14 @@ defmodule Tasktracker.Accounts do
     Repo.all(User)
   end
 
+  def list_users_for_task_assignment(user_id) do
+    query = from u in User,
+                 left_join: m in Manage, on: u.id == m.managee_id,
+                 where: m.manager_id == ^user_id or u.id == ^user_id
+
+    Repo.all(query)
+  end
+
   @doc """
   Returns the list of users.
 

@@ -11,19 +11,32 @@
     <%= error_tag f, :title %>
   </div>
 
- <div class="form-group">
-   <%= label f, :user_id, "Assigned To", class: "control-label" %>
-   <%= select f, :user_id, @users ,class: "form-control", id: "select-user-id" %>
- </div>
+   <%= if @current_user.id != @task.user_id do  %>
+    <div class="form-group">
+      <%= label f, :user_id, "Assigned To", class: "control-label" %>
+      <%= select f, :user_id, @users ,class: "form-control", id: "select-user-id", disabled: !@current_user.manager %>
+    </div>
+   <% end %>
 
+   <%= if @current_user.manager && @current_user.id == @task.user_id do  %>
+       <div class="form-group">
+         <%= label f, :user_id, "Assigned To", class: "control-label" %>
+         <%= select f, :user_id, @users ,class: "form-control", id: "select-user-id", disabled: !@current_user.manager %>
+       </div>
+      <% end %>
 
+   <%= if @current_user.id == @task.user_id do  %>
    <%= inputs_for f, :timeblocks , fn i -> %>
    <div class="form-group">
-        <%= label i, :time, "Start Time: ", class: "control-label" %>
-        <%= hidden_input i, :user_id, class: "control-label" %>
-        <%= label i, :time, "End Time: ", class: "control-label" %>
-        <%= error_tag i, :time %>
+        <%= label i, :starttime, "Start Time: ", class: "control-label" %>
+        <%= datetime_select i, :starttime %>
+        <%= label i, :endtime, "End Time: ", class: "control-label" %>
+        <%= datetime_select i, :endtime %>
+        <div>
+        <%= error_tag i, :starttime %>
+        </div>
    </div>
+    <% end %>
     <% end %>
 
 

@@ -2,8 +2,7 @@
 
 <%= if Enum.count(@tasks) == 0 do %>
 <p> Tasks assigned to you will show up in this place </p>
-<% end %>
-<%= if Enum.count(@tasks) != 0 do %>
+<% else %>
 <%= if @tasks do %>
 <table class="table">
   <thead>

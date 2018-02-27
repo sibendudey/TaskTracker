@@ -14,17 +14,13 @@
   <body>
     <div class="container">
     <div class="row">
-              <div class="col-3 offset-0">
-              <p>Profile Page: <%= link "Profile", to: "/profile" %></p>
-              </div>
               <div class="col-3 offset-9">
                 <%= if @current_user do %>
-                  <p>
-                    Logged in as: <%= @current_user.name %>
-                    <%= link "Log Out", to: "/session", method: :delete %>
-                  </p>
+                <p>Profile Page: <%= link "Profile", to: "/profile" %></p>
+                <p>Logged in as: <%= @current_user.name %>
+                <%= link "Log Out", to: "/session", method: :delete %></p>
                 <% else %>
-                  <p>Not logged in.</p>
+                <p>Not logged in.</p>
                 <% end %>
               </div>
       </div>

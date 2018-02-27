@@ -2,4 +2,9 @@
 
 <%= render "timeblock_form.html", Map.put(assigns, :action, task_path(@conn, :update, @task)) %>
 
-<span><%= link "Back", to: page_path(@conn, :feed, user_id: @current_user.id) %></span>
+<%= if @current_user.manager do  %>
+<p>Back to: <%= link "Task Feed", to: page_path(@conn, :feed, user_id: @current_user.id) %></p>
+<p>Back to: <%= link "Managee Task Feed", to: page_path(@conn, :managee_feed, user_id: @current_user.id) %></p>
+<% else %>
+<p>Back to: <%= link "Task Feed", to: page_path(@conn, :feed, user_id: @current_user.id) %></p>
+<% end %>
