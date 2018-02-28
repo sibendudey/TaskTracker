@@ -3,11 +3,10 @@ defmodule TasktrackerWeb.TaskController do
 
   alias Tasktracker.TaskManager
   alias Tasktracker.TaskManager.Task
-  alias Tasktracker.TaskManager.Timetracker
   alias Tasktracker.Repo
 
   def new(conn, _params) do
-    task = %Task{timetrackers: [%Timetracker{}]}
+    task = %Task{}
     changeset = TaskManager.change_task(task)
     current_user = conn.assigns[:current_user]
     users = Tasktracker.Accounts.list_users_for_task_assignment(current_user.id)

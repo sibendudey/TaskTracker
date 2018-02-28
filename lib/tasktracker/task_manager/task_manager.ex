@@ -63,13 +63,15 @@ defmodule Tasktracker.TaskManager do
   """
   def get_task_with_time_blocks_managee!(id, manager_id) do
     query = from t in Task,
-              left_join: tb in Timeblock, on: tb.task_id == t.id,
+              left_join: tb in Timeblock, on: tb.task_id == t.id,on: tb.user_id == t.user_id,
               where: is_nil(tb.user_id) or t.user_id == tb.user_id,
               where: t.id == ^id,
               preload: [timeblocks: tb],
               preload: :user
 
-    Repo.one(query)
+    result = Repo.one(query)
+    IO.inspect result
+    result
   end
 
 
@@ -85,7 +87,7 @@ defmodule Tasktracker.TaskManager do
   """
   def get_managee_tasks(manager_user_id) do
     query = from t in Task,
-                 left_join: tb in Timeblock, on: tb.task_id == t.id,
+                 left_join: tb in Timeblock, on: tb.task_id == t.id,on: tb.user_id == t.user_id,
                  join: m in Manage, on: m.managee_id == t.user_id,
                  where: m.manager_id == ^manager_user_id,
                  preload: [timeblocks: tb],

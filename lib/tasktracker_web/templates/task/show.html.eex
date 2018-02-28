@@ -40,7 +40,7 @@
     <% end %>
 </ul>
 <p>
-<%= if !@task.completed && @task.user_id == @current_user.id do %>
+<%= if !@task.completed  do %>
 <%= link "Edit", to: task_path(@conn, :edit, @task), class: "btn btn-default btn-xs" %>
 <% end %>
 </p>

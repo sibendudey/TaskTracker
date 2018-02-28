@@ -19,6 +19,7 @@ defmodule TasktrackerWeb.PageController do
   def managee_feed(conn, params) do
     current_user = conn.assigns[:current_user]
     tasks = Tasktracker.TaskManager.get_managee_tasks(current_user.id)
+    IO.inspect tasks
     task = %Task{timetrackers: [%Timetracker{}]}
     changeset = Tasktracker.TaskManager.change_task(task)
     users = Tasktracker.Accounts.list_users_for_task_assignment(current_user.id)
