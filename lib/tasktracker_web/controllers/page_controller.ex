@@ -10,7 +10,7 @@ defmodule TasktrackerWeb.PageController do
 
   def feed(conn, params) do
     tasks = Tasktracker.TaskManager.get_tasks_by_user_id(params["user_id"])
-    task = %Task{timetrackers: [%Timetracker{}]}
+    task = %Task{}
     changeset = Tasktracker.TaskManager.change_task(task)
     users = Tasktracker.Accounts.list_users() |> Enum.map(&{&1.name, &1.id})
     render conn, "feed.html", tasks: tasks, changeset: changeset, users: users
@@ -19,8 +19,7 @@ defmodule TasktrackerWeb.PageController do
   def managee_feed(conn, params) do
     current_user = conn.assigns[:current_user]
     tasks = Tasktracker.TaskManager.get_managee_tasks(current_user.id)
-    IO.inspect tasks
-    task = %Task{timetrackers: [%Timetracker{}]}
+    task = %Task{}
     changeset = Tasktracker.TaskManager.change_task(task)
     users = Tasktracker.Accounts.list_users_for_task_assignment(current_user.id)
             |> Enum.map(&{&1.name, &1.id})

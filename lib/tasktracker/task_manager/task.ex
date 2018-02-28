@@ -8,7 +8,6 @@ defmodule Tasktracker.TaskManager.Task do
     field :description, :string
     field :title, :string
     belongs_to :user, Tasktracker.Accounts.User
-    has_many :timetrackers, Tasktracker.TaskManager.Timetracker
     has_many :timeblocks, Tasktracker.TaskManager.Timeblock
     timestamps()
   end
@@ -20,23 +19,5 @@ defmodule Tasktracker.TaskManager.Task do
     |> validate_required([:title, :description, :completed, :user_id])
     |> cast_assoc(:timeblocks)
   end
-
-  @doc false
-  def changesetWithTimetracker(%Task{} = task, attrs) do
-    task
-    |> cast(attrs, [:title, :description, :completed, :user_id])
-    |> validate_required([:title, :description, :completed, :user_id])
-    |> cast_assoc(:timetrackers)
-  end
-
-  @doc false
-  def updatechangeset(%Task{} = task, attrs) do
-    task
-    |> cast(attrs, [:title, :description, :completed, :user_id])
-    |> validate_required([:title, :description, :completed, :user_id])
-    |> cast_assoc(:timetrackers, required: true)
-  end
-
-
 
 end
