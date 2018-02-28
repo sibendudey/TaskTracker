@@ -13,6 +13,8 @@ I have four tables.
 * Users has a has_many relationship with tasks.
 * Users has a has_many relationship with timeblocks.
 * Users has a has_many relationship with manages.
+* A User can choose to be a manager during registration. 
+* A user, if a manager can assign tasks to himself and others.
 
 -> Tasks
 * Task belongs to a single user.
@@ -31,4 +33,5 @@ I have four tables.
 -> Manages
 
 * A Manage record belongs to a manager (user) and a managee(user).
+
 
